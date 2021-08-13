@@ -1,6 +1,6 @@
 /* src/App.js */
 import React, { useEffect, useState } from "react";
-import Amplify, { API, graphqlOperation } from "aws-amplify";
+import Amplify, { Analytics, API, graphqlOperation } from "aws-amplify";
 import { createTodo } from "./graphql/mutations";
 import { listTodos } from "./graphql/queries";
 
@@ -25,6 +25,11 @@ const App = () => {
 	async function fetchTodos() {
 		try {
 			const todoData = await API.graphql(graphqlOperation(listTodos));
+			// analytics event
+			Analytics.record({
+				name: "fetchTodos",
+			});
+
 			const todos = todoData.data.listTodos.items;
 			setTodos(todos);
 		} catch (err) {
@@ -39,6 +44,16 @@ const App = () => {
 			setTodos([...todos, todo]);
 			setFormState(initialState);
 			await API.graphql(graphqlOperation(createTodo, { input: todo }));
+			// analytics event
+			Analytics.record({
+				name: "addTodo",
+				attributes: {
+					todo: formState.name,
+				},
+				metrics: {
+					timeSpent: 10, // example
+				},
+			});
 		} catch (err) {
 			console.log("error creating todo:", err);
 		}

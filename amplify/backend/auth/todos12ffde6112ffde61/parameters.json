@@ -1,4 +1,6 @@
 {
+    "identityPoolName": "todos12ffde6112ffde61_identitypool_156003cf",
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "todos12ffde61",
     "userPoolName": "todos-userpool",
     "autoVerifiedAttributes": [
@@ -34,7 +36,7 @@
     "userpoolClientSetAttributes": false,
     "sharedId": "12ffde61",
     "resourceName": "todos12ffde6112ffde61",
-    "authSelections": "userPoolOnly",
+    "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
